@@ -14,6 +14,36 @@ S3提供了5GB的免费存储空间，而且传入流量不收费。故将数据
 在Windows实例上面从S3下载数据库备份文件到新卷的磁盘山面。即使后面EC2的实例Windows不是想要的，删除实例之后
 数据卷的文件还是存储在卷上，detach之后数据不会丢失。可重复将数据挂载到新的实例上面，减少重复下载次数。
 
+###磁盘挂载失败，显示：the disk is offline because of policy set by an administrator
+解决办法http://blog.csdn.net/russle/article/details/7190878
+可以通过DISKPART命令行工具解决
+DiskPart successfully changed the SAN policy for the current operating system.
+DISKPART> LIST DISK
+
+Disk ### Status Size Free Dyn Gpt
+-------- ------------- ------- ------- --- ---
+Disk 0 Online 40 GB 0 B
+Disk 1 Offline 10 GB 1024 KB
+DISKPART>select disk 1
+
+Disk 1 is now the selected disk.
+
+DISKPART> ATTRIBUTES DISK CLEAR READONLY
+Disk attributes cleared successfully.
+
+DISKPART> attributes disk
+Current Read-only State : No
+Read-only : No
+Boot Disk : No
+Pagefile Disk : No
+Hibernation File Disk : No
+Crashdump Disk : No
+Clustered Disk : No
+
+DISKPART> ONLINE DISK
+DiskPart successfully onlined the selected disk.
+Restart OS.
+= = = = = = = = = = = = = = = = = =
 
 ###去除服务器版本IE浏览器的信任站点添加提示：
 win2012 server：管理工具\服务器管理器\本地服务器\属性\ie增强的安全设置
@@ -22,3 +52,4 @@ win2008 server：开始\管理工具\服务器管理器\配置IE ESC
 ###英文版的操作系统要下载英文版的SQL Server 2012 Express相应版本，下中文版，安装会出错。
 
 ###如果一不小心使用了非免费的资源(RDS)，哪怕是立即删除，也是要生成一小时的使用费用。
+
