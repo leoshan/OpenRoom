@@ -48,6 +48,14 @@ Restart OS.
 ###修改2012的administrator账号的密码方法：
 Control Panel\User Accounts\User Accounts\Manage Accounts\Change an Account\Change Password
 
+###参照还原备份数据库方法在EC2当中进行备份数据库还原。
+
+###还原数据库出错，查找原因，验证备份文件失败，对文件完整性检验。
+由于数据库备份文件解压之后文件较大，需要校验MD5进行文件完整性验证。先校验存储在S3上面的压缩备份文件完整性，
+再校验解压后的文件MD5.与已恢复成功的数据对比之后发现是先前的解压出了问题。
+
+
+
 ###去除服务器版本IE浏览器的信任站点添加提示：
 win2012 server：管理工具\服务器管理器\本地服务器\属性\ie增强的安全设置
 win2008 server：开始\管理工具\服务器管理器\配置IE ESC
