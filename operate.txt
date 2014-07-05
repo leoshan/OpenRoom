@@ -45,6 +45,9 @@ DiskPart successfully onlined the selected disk.
 Restart OS.
 = = = = = = = = = = = = = = = = = =
 
+###修改2012的administrator账号的密码方法：
+Control Panel\User Accounts\User Accounts\Manage Accounts\Change an Account\Change Password
+
 ###去除服务器版本IE浏览器的信任站点添加提示：
 win2012 server：管理工具\服务器管理器\本地服务器\属性\ie增强的安全设置
 win2008 server：开始\管理工具\服务器管理器\配置IE ESC
