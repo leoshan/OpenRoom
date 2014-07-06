@@ -1,19 +1,34 @@
 操作思路及试验说明
 
-1、使用S3存储数据库备份文件
+一、使用S3存储数据库备份文件
 S3提供了5GB的免费存储空间，而且传入流量不收费。故将数据库备份文件上传到S3存储（Tokyo区域），数据库备份文件压缩后大小为1.7GB。
 这样做的好处是，将文件存储在Tokyo的区域，然后将EC2和RDS同样选择在Tokyo区域，这样文件读取的速度会非常快。
 并且由于在同一个局域网内不收流量费用。
 
-2、使用EC2建立windows server版本虚拟机，导入备份的数据库。
+遗留问题：
+###如何验证大文件上传之后的完整性，eg.MD5校验。
+
+二、使用EC2建立windows server版本虚拟机，导入备份的数据库。
 当前设置了多个镜像版本的实例，但是试验后导入数据库备份没有成功，需要根据之前成功经验进一步试验。
 
-3、添加30GB的新卷存储下载的文件和数据库文件
+已解决问题：
+###修改2012的administrator账号的密码方法：
+Control Panel\User Accounts\User Accounts\Manage Accounts\Change an Account\Change Password
+
+###去除服务器版本IE浏览器的信任站点添加提示：
+win2012 server：管理工具\服务器管理器\本地服务器\属性\ie增强的安全设置
+win2008 server：开始\管理工具\服务器管理器\配置IE ESC
+
+
+遗留问题：
+
+三、添加30GB的新卷存储下载的文件和数据库文件
 由于默认的系统盘剩余空间太小，无法满足数据库解压（解压后7.6GB）及导入后的存储空间(8GB)。
 所以将新卷并Attach到Windows实例上面，并在实例里用磁盘管理工具使磁盘在系统中可见。
 在Windows实例上面从S3下载数据库备份文件到新卷的磁盘山面。即使后面EC2的实例Windows不是想要的，删除实例之后
 数据卷的文件还是存储在卷上，detach之后数据不会丢失。可重复将数据挂载到新的实例上面，减少重复下载次数。
 
+已解决问题：
 ###磁盘挂载失败，显示：the disk is offline because of policy set by an administrator
 解决办法http://blog.csdn.net/russle/article/details/7190878
 可以通过DISKPART命令行工具解决
@@ -45,29 +60,29 @@ DiskPart successfully onlined the selected disk.
 Restart OS.
 = = = = = = = = = = = = = = = = = =
 
-###修改2012的administrator账号的密码方法：
-Control Panel\User Accounts\User Accounts\Manage Accounts\Change an Account\Change Password
 
-###参照还原备份数据库方法在EC2当中进行备份数据库还原。
+
+四、还原备份数据库：在EC2当中进行备份数据库还原。
+参照数据库备份还原方法
+
+已解决问题：
+###英文版的操作系统要下载英文版的SQL Server 2012 Express相应版本，下中文版，安装会出错。
 
 ###还原数据库出错，查找原因，验证备份文件失败，对文件完整性检验。
 由于数据库备份文件解压之后文件较大，需要校验MD5进行文件完整性验证。先校验存储在S3上面的压缩备份文件完整性，
 再校验解压后的文件MD5.与已恢复成功的数据对比之后发现是先前的解压出了问题。
 
+遗留问题：
 ###还原数据库成功，解决查询结果中文是乱码问题。
 
-###多种ec2镜像实例导入实验
+五、多种ec2镜像实例导入实验
 1、已OK：镜像Win2012 server R2 base + 自建安装SQL server 2012 Express X64英文版本。
 验证数据库备份文件OK后，按照导入方法导入OK。（此方法曾经在Win7+SQL server 2012 Express X86 中文版本验证成功）
 
 2、待验证：镜像win2008 server R2 with SQL server 2008 R2，验证数据库备份完整性，安装导入方法导入。
 
 
-###去除服务器版本IE浏览器的信任站点添加提示：
-win2012 server：管理工具\服务器管理器\本地服务器\属性\ie增强的安全设置
-win2008 server：开始\管理工具\服务器管理器\配置IE ESC
-
-###英文版的操作系统要下载英文版的SQL Server 2012 Express相应版本，下中文版，安装会出错。
+六、注意事项
 
 ###如果一不小心使用了非免费的资源(RDS)，哪怕是立即删除，也是要生成一小时的使用费用。
 
