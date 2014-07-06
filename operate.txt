@@ -75,7 +75,7 @@ Restart OS.
 遗留问题：
 ###还原数据库成功，解决查询结果中文是乱码问题。
 
-五、多种ec2镜像实例导入实验
+五、多种ec2镜像实例的备份数据库导入实验
 1、已OK：镜像Win2012 server R2 base + 自建安装SQL server 2012 Express X64英文版本。
 验证数据库备份文件OK后，按照导入方法导入OK。（此方法曾经在Win7+SQL server 2012 Express X86 中文版本验证成功）
 
