@@ -81,8 +81,27 @@ Restart OS.
 
 2、待验证：镜像win2008 server R2 with SQL server 2008 R2，验证数据库备份完整性，安装导入方法导入。
 
+六、优化数据库，参见表优化方法
 
-六、注意事项
+七、将优化后的数据库备份压缩，上传至S3.
+
+八、将备份文件导入到RDS
+
+九、优化RDS
+
+十、使用webservice查询数据库，调用RDS.
+
+十一、使用Java生成并调用webservice
+
+十二、使用Python生成并调用webservece
+
+十三、ec2上部署Tomcat+webservice(VPC环境验证) 
+
+十四、使用android调用webservice
+
+十五、发布android应用
+
+附录、注意事项
 
 ###如果一不小心使用了非免费的资源(RDS)，哪怕是立即删除，也是要生成一小时的使用费用。
 
