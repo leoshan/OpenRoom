@@ -54,6 +54,13 @@ Control Panel\User Accounts\User Accounts\Manage Accounts\Change an Account\Chan
 由于数据库备份文件解压之后文件较大，需要校验MD5进行文件完整性验证。先校验存储在S3上面的压缩备份文件完整性，
 再校验解压后的文件MD5.与已恢复成功的数据对比之后发现是先前的解压出了问题。
 
+###还原数据库成功，解决查询结果中文是乱码问题。
+
+###多种ec2镜像实例导入实验
+1、已OK：镜像Win2012 server R2 base + 自建安装SQL server 2012 Express X64英文版本。
+验证数据库备份文件OK后，按照导入方法导入OK。（此方法曾经在Win7+SQL server 2012 Express X86 中文版本验证成功）
+
+2、待验证：镜像win2008 server R2 with SQL server 2008 R2，验证数据库备份完整性，安装导入方法导入。
 
 
 ###去除服务器版本IE浏览器的信任站点添加提示：
