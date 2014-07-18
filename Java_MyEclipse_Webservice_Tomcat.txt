@@ -18,3 +18,11 @@ MyEclipse生成WAR包并在Tomcat下部署发布
 
 4、MyEclipse开发Web项目发布到Tomcat下的Root目录
 http://blog.csdn.net/chenrisheng1/article/details/11646661
+
+
+### Android调用Webservice，说一下适用范围：
+1）当使用java版的webservice的时候，可以直接使用KSOAP2这个类库，直接调用其方法就可以了（采用这种格式Webservice）
+
+2）当使用.NET版的webservice的时候，KSOAP2这个类库不是很好用，我研究了一个下午没研究明白。
+所以，我就对这篇博客http://blog.csdn.net/zhyl8157121/article/details/8169172中的HttpConnSoap类进行了修改。
+目的是获取并解析复杂类型的返回值。
