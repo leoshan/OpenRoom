@@ -100,6 +100,18 @@ http://www.cnblogs.com/xjb/archive/2013/02/01/sqlservertomysql.html
 
 十一、使用Java生成并调用webservice
 
+1、使用Java+MyEclipse+Tomcat+Xfire开发webservice
+
+
+2、使用Java+JDBC调用MSSQL（考虑Linux和Windows环境调用）
+
+
+3、实现查询功能Webservice接口
+
+
+4、优化查询接口
+
+
 十二、使用Python生成并调用webservece
 
 十三、ec2上部署Tomcat+webservice(VPC环境验证) 
