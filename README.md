@@ -13,3 +13,4 @@ A Demo Project of ID search by public database, which use AWS EC2 RDS S3 also wi
     5、开发Android App连接webservice，发布程序。
 
     
+http://blog.csdn.net/meteorlwj/article/details/4545100
