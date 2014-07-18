@@ -12,5 +12,4 @@ MyEclipse生成WAR包并在Tomcat下部署发布
 打包完成以后我们将war放到tomcat的webapps目录下，并设置server.xml文件；然后运行tomcat，并输入项目的url就可以浏览了。
 
 4、MyEclipse开发Web项目发布到Tomcat下的Root目录
-
 http://blog.csdn.net/chenrisheng1/article/details/11646661
