@@ -21,7 +21,10 @@ http://www.cnblogs.com/ghj1976/archive/2011/04/26/2028904.html
 3、类比上面，使用Java调用自己的Webservice开发Android应用。
 
 
+4、优化应用
 
+
+5、发布APP应用
 
 
 备注：
