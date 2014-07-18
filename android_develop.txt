@@ -6,6 +6,9 @@ http://jingyan.baidu.com/article/48b37f8d6a43e11a646488ba.html
 2、Android平台调用WebService详解（使用Ksoap2-android）
 http://blog.csdn.net/lyq8479/article/details/6428288
 
+### Android调用天气预报的WebService简单例子
+http://www.cnblogs.com/ghj1976/archive/2011/04/26/2028904.html
+
 
 ### Android调用Webservice，说一下适用范围：
 1）当使用java版的webservice的时候，可以直接使用KSOAP2这个类库，直接调用其方法就可以了（采用这种格式Webservice）
