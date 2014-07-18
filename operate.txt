@@ -91,7 +91,8 @@ Restart OS.
 您不能使用备份和还原命令将数据导入数据库实例,因为 Amazon RDS 不允许您具备 可将文件放在数据库引擎可以访问的物理位置的操作系统级访问权限。
 此外,您也不能使用 SQL Server Management Studio 中的复制数据库向导导入数据,因为该工具需要源服务器和目标服务器的 sysadmin 权限,而此权限不可用于数据库实例的主用户账户。
 
-
+MSSQL数据导入到MySQL
+http://www.cnblogs.com/xjb/archive/2013/02/01/sqlservertomysql.html
 
 九、优化RDS
 
