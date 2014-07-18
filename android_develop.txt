@@ -1,0 +1,7 @@
+###Android开发经验积累
+
+1、如何在MyEclipse中开发Android应用
+http://jingyan.baidu.com/article/48b37f8d6a43e11a646488ba.html
+
+2、Android平台调用WebService详解（使用Ksoap2-android）
+http://blog.csdn.net/lyq8479/article/details/6428288
