@@ -1,4 +1,10 @@
-使用Linux+Tomcat+MSSQL(MySQL)部署Webservice
+Webservice的开发及部署
+————Linux/EC2+Tomcat+MSSQL/RDS(MySQL)部署Webservice
+
+工具：MyEclipse
+语言：Java
+环境：Linux+Tomcat+MSSQL
+物理设备：EC2+RDS
 
 一、选择合适的开源框架开发Webservice
 
