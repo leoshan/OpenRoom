@@ -6,6 +6,11 @@ http://blog.csdn.net/meteorlwj/article/details/4545100
 2、次要参考“Java使用XFire调用WebService接口”
 http://www.cnblogs.com/simle/archive/2011/10/31/2230091.html
 
+
+### MyEclipse 8.6 创建 jax-ws 的详细步骤（有截图）
+http://blog.csdn.net/hemingwang0902/article/details/6146647
+
+
 3、导出War包并部署
 MyEclipse生成WAR包并在Tomcat下部署发布
 首先是使用MyEclipse将web项目打包，右键选中项目，选择export；弹出Export的select窗体，选择Java EE 的WAR file(myeclipse)选项，然后选择工程名称和路径，单击完成就可以了。
