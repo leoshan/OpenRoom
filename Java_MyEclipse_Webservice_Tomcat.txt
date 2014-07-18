@@ -1,0 +1,16 @@
+使用Linux+Tomcat+MSSQL(MySQL)部署Webservice
+
+1、主要参考“MyEclipse下XFire开发Webservice实例”
+http://blog.csdn.net/meteorlwj/article/details/4545100
+
+2、次要参考“Java使用XFire调用WebService接口”
+http://www.cnblogs.com/simle/archive/2011/10/31/2230091.html
+
+3、导出War包并部署
+MyEclipse生成WAR包并在Tomcat下部署发布
+首先是使用MyEclipse将web项目打包，右键选中项目，选择export；弹出Export的select窗体，选择Java EE 的WAR file(myeclipse)选项，然后选择工程名称和路径，单击完成就可以了。
+打包完成以后我们将war放到tomcat的webapps目录下，并设置server.xml文件；然后运行tomcat，并输入项目的url就可以浏览了。
+
+4、MyEclipse开发Web项目发布到Tomcat下的Root目录
+
+http://blog.csdn.net/chenrisheng1/article/details/11646661
