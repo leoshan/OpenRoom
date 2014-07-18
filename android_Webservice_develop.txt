@@ -1,3 +1,10 @@
+Android连接Webservice开发
+
+工具：Myeclipse
+语言：Java
+环境：Android
+
+
 ###Android开发经验积累（实现Android调用自己开发的Webservice）
 
 1、如何在MyEclipse中开发Android应用
