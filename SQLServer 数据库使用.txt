@@ -1,0 +1,222 @@
+SQL Server 数据库使用
+
+1还原数据库
+
+1).下载安装SQL Server 2012 Express，微软官网下载。选择SQLEXPRWT_x86_CHS（32位系统）或者SQLEXPRWT_x64_CHS（64位系统），需要安装.NetFramework支持。
+
+2).打开SQL Server Management Studio，导入下载好解压后的的文件： shifenzheng.bak  ，下面是导入数据的方法：
+1.右击SQL Server 2012实例下的“数据库”文件夹。就是master等数据库上一级的那个图标。选择“所有任务”，“还原数据库” 
+2.在“还原为数据库”中填上恢复的数据库名字shifenzheng（SQL 2012会自动填写）。这个名字应该与你的源码中使用的数据库名字一致。 
+3.在弹出的对话框中，选“从设备” 
+4.点击“选择设备” 
+5.点击“添加” 
+6.点击“文件名”文本框右侧的“...”按钮，选中你的“.BAK”文件，并点击确定回到“选择还原设备”对话框。 
+7.点击确定回到“还原数据库”对话框。 
+8.点击“选项”选项卡 
+9.将所有“移至物理文件名”下面的路径，改为你想还原后的将数据库文件保存到的路径。如果你不希望改变，可以直接点击确定。这时便恢复成功了。
+3)查看里面的数据:右键 编辑前200行，即可看到结果。
+
+2优化数据库
+
+2.1加快查询速度——建立索引
+
+1、先精简查询语句，只查询有必要的字段，SQL语句如下：
+
+SELECT [Name]
+
+      ,[CtfId]
+
+      ,[Gender]
+
+      ,[Birthday]
+
+      ,[Address]
+
+      ,[District3]
+
+      ,[District4]
+
+      ,[Mobile]
+
+      ,[Tel]
+
+      ,[EMail]
+
+      ,[Family]
+
+      ,[Version]
+
+          ,[id]
+
+  FROM [shenfenzheng].[dbo].[cdsgus]
+
+      Where Name='张三'
+
+2、通过以上是方式查找，发现占用时间较长，想到了要进行优化，根据之前的知识，觉得需要用索引。但是看了一下原数据已经有了以主键ID建立起的索引，所以在原表中查询Where id=1000，这样的查询会很快。但是查询以名字为条件的就很慢，So目标就是需要建立以名字为条件的聚集索引（去了解3种索引的区别）。
+
+3、聚焦索引一个表中只能有一个，So删除原来的主键，删除了唯一索引。在表中建立以Name排序的聚集索引，但是会提示Name的类型是Nvarchar(2000)，超出了建立索引的最大字节。忽略提示，继续创建，会在运行一会后提示错误。于是，想到缩短已存在的表的类型长度，试了一圈无果。
+
+2.2解决字段长度——创建新表
+
+1、与其缩短表某个字段的长度，还不如选择想要内容的字段，并缩短想要字段长度，重新建张表，然后再这长表中建立索引。
+
+2、建立的新表如下，命名info：
+
+
+
+3、先使用SQL语句从原表中查询想应数据然后再插入到新表中，语句如下：
+
+insert into [shifenzheng].[dbo].[info] SELECT [Name]
+
+      ,[CtfId]
+
+      ,[Gender]
+
+      ,[Birthday]
+
+      ,[Address]
+
+      ,[District3]
+
+      ,[District4]
+
+      ,[Mobile]
+
+      ,[Tel]
+
+      ,[EMail]
+
+      ,[Family]
+
+      ,[Version]
+
+          ,[id]
+
+  FROM [shifenzheng].[dbo].[cdsgus]
+
+4、语句使用没有问题，但是2000w条的数据先全部查询出来，然后再执行插入操作，会提示超时报错。So，想到了加相应的条件来进行分段，来减少单次运算的量。原表中，有唯一性的就是ID。SO分段如下：
+
+  /* Seperate Four Stage To Make a new table
+
+  -- where id<5000001
+
+  -- Where id>5000000 and id<10000001
+
+  -- Where id>10000000 and id<15000001
+
+  -- Where id>15000000
+
+  */
+
+5、这样的分段在执行的过程中，Where id>10000000 and id<15000001这个条件执行的时候，出现了表设计的字符串长度不足的报错。当时为了方便建立索引，故将每个字段都设置的比较谨慎。但是这500w条数据不知道是哪个字段短了导致的报错，找了一圈，修复未果。SO决定二分法排查错误。排除过程如下：
+
+  /* Find The Error Line , Make the Email Type Nvarchar(60)
+
+  -- Where id>10000000 and id<11500001 OK
+
+  -- Where id>11500000 and id<12000001 OK
+
+  -- Where id>12000000 and id<12300001 OK
+
+  -- Where id>12300000 and id<12350001 OK
+
+  -- Where id>12350000 and id<12360001 OK
+
+  -- Where id>12360000 and id<12365001 ok
+
+  -- Where id>12365000 and id<12367001 OK
+
+  -- Where id>12367000 and id<12367251 OK
+
+  -- Where id>12367250 and id<12367301 ok
+
+  -- Where id>12367300 and id<12367351 OK
+
+  -- Where id>12367350 and id<12367356 ok
+
+  -- Where id>12367355 and id<12367361 ----- id=12367360 NOK
+
+  -- Where id>12367360 and id<12367381 OK
+
+  -- Where id>12367380 and id<12367401 ok
+
+  -- Where id>12367400 and id<12367501 OK
+
+  -- Where id>12367501 and id<12370001 OK
+
+  -- Where id>12370000 and id<12380001 ok
+
+  -- Where id>12380000 and id<12400001 ok
+
+  -- Where id>12400000 and id<12500001 OK
+
+  -- Where id>12500000 and id<15000001 OK
+
+  */
+
+6、经过一系列的查询发现在id=12367360这行，Email的值超过了当初设计的50个字节，是55个字符，SO修改表设计，把Email的长度改成60，新表设计如下：
+
+
+
+2.3解决数据库存储空间不足——创建新的实例
+
+1、在做如上的找ERROR的过程中，发现了另外一个问题，SQL Server Express版本限制了相应的数据库不能查过10GB。原先的数据表就有将近8GB，再加上索引和新建的表，瞬间就超过了10GB。So，整体的解决方案就是：新建一个与原来shifenzheng数据库一致的实例shenfenzheng。并新建如上设计的一张info表，分段执行查询与插入动作，将新的数据插入到info表中，然后以Name为条件建立聚集索引。再次查询时，速度OK，Perfect！
+
+2、SQL 建表语句如下：
+
+select * into [shifenzheng].[dbo].[info] from [shenfenzheng].[dbo].[info] where 1=0
+
+3、SQL 执行复制语句如下：
+
+insert into [shenfenzheng].[dbo].[info] SELECT [Name]
+
+      ,[CtfId]
+
+      ,[Gender]
+
+      ,[Birthday]
+
+      ,[Address]
+
+      ,[District3]
+
+      ,[District4]
+
+      ,[Mobile]
+
+      ,[Tel]
+
+      ,[EMail]
+
+      ,[Family]
+
+      ,[Version]
+
+         ,[id]
+
+  FROM [shifenzheng].[dbo].[cdsgus]
+
+  Where id>15000000
+
+ 
+
+  /* Seperate Four Stage To Make a new table
+
+  -- where id<5000001
+
+  -- Where id>5000000 and id<10000001
+
+  -- Where id>10000000 and id<15000001
+
+  -- Where id>15000000
+
+     */
+
+4、建立以Name排序的聚集索引。
+
+3备份数据库
+
+3.1待续
+
+
+
