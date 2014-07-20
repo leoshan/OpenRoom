@@ -48,35 +48,20 @@
 新表列名只要如下13个字段，数据类型全部选择nvarchar[50],
 除id是int、Address选择nvarchar[100]、Email选择nvarchar[60](最长有个55).
 
-SELECT [Name]
-
+  SELECT TOP 1000 [Name]
       ,[CtfId]
-
       ,[Gender]
-
       ,[Birthday]
-
       ,[Address]
-
       ,[District3]
-
       ,[District4]
-
       ,[Mobile]
-
       ,[Tel]
-
       ,[EMail]
-
       ,[Family]
-
       ,[Version]
-
       ,[id]
-
-  FROM [shenfenzheng].[dbo].[cdsgus]
-
-  Where Name='张三'
+  FROM [shenfenzheng].[dbo].[info]
 
 3、从原shifenzheng数据库中分段执行查询相应表达字段与然后插入到新的实例的info表中。
 （考虑执行速度，分段将需要的数据生成新的表）
