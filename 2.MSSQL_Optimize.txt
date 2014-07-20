@@ -67,46 +67,29 @@
 （考虑执行速度，分段将需要的数据生成新的表）
 
 insert into [shenfenzheng].[dbo].[info] SELECT [Name]
-
       ,[CtfId]
-
       ,[Gender]
-
       ,[Birthday]
-
       ,[Address]
-
       ,[District3]
-
       ,[District4]
-
       ,[Mobile]
-
       ,[Tel]
-
       ,[EMail]
-
       ,[Family]
-
       ,[Version]
-
       ,[id]
-
   FROM [shifenzheng].[dbo].[cdsgus]
-
-  Where id>15000000
-
+  Where id<5000001
+  
   /* Seperate Four Stage To Make a new table
 
   -- where id<5000001
-
   -- Where id>5000000 and id<10000001
-
   -- Where id>10000000 and id<15000001
-
   -- Where id>15000000
 
-     */
+  */
 
 4、以Name字段为条件建立聚集索引。（以Name查询时，速度OK）
 
