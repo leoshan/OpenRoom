@@ -20,7 +20,92 @@
 ###还原数据库成功，解决查询结果中文是乱码问题。
 
 
-三、优化数据库，参见表优化方法
+三、优化数据库（使用名字查询时速度加快），参见表优化方法
+### 根据前期对此数据的优化经验，少走弯路，优化步骤如下，至于为什么要这么优化，参见《SQL数据库使用》。
+
+1、创建一个新的数据库实例，eg.shenfenzheng。（单个Express数据库实例有10GB空间限制）
+2、重现设计一张info表，对数据的长度进行限制。（字段变小方便做聚集索引）
+
+新表列名只要如下几个字段，数据类型全部选择nvarchar[50],除Address选择nvarchar[100]、Email选择nvarchar[60](最长有个55).
+
+SELECT [Name]
+
+      ,[CtfId]
+
+      ,[Gender]
+
+      ,[Birthday]
+
+      ,[Address]
+
+      ,[District3]
+
+      ,[District4]
+
+      ,[Mobile]
+
+      ,[Tel]
+
+      ,[EMail]
+
+      ,[Family]
+
+      ,[Version]
+
+      ,[id]
+
+  FROM [shenfenzheng].[dbo].[cdsgus]
+
+  Where Name='张三'
+
+3、从原shifenzheng数据库中分段执行查询相应表达字段与然后插入到新的实例的info表中。
+（考虑执行速度，分段将需要的数据生成新的表）
+
+insert into [shenfenzheng].[dbo].[info] SELECT [Name]
+
+      ,[CtfId]
+
+      ,[Gender]
+
+      ,[Birthday]
+
+      ,[Address]
+
+      ,[District3]
+
+      ,[District4]
+
+      ,[Mobile]
+
+      ,[Tel]
+
+      ,[EMail]
+
+      ,[Family]
+
+      ,[Version]
+
+      ,[id]
+
+  FROM [shifenzheng].[dbo].[cdsgus]
+
+  Where id>15000000
+
+  /* Seperate Four Stage To Make a new table
+
+  -- where id<5000001
+
+  -- Where id>5000000 and id<10000001
+
+  -- Where id>10000000 and id<15000001
+
+  -- Where id>15000000
+
+     */
+
+4、以Name字段为条件建立聚集索引。（以Name查询时，速度OK）
+
+
 
 四、将优化后的数据库备份压缩，上传至S3.
 
