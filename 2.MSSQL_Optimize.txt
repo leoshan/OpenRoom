@@ -64,7 +64,7 @@
   FROM [shenfenzheng].[dbo].[info]
 
 3、从原shifenzheng数据库中分段执行查询相应表达字段与然后插入到新的实例的info表中。
-（考虑执行速度，分段将需要的数据生成新的表）
+（考虑执行速度，分段每次500w数据插入数据到新的表）
 
 insert into [shenfenzheng].[dbo].[info] SELECT [Name]
       ,[CtfId]
