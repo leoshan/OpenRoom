@@ -113,6 +113,7 @@ insert into [shenfenzheng].[dbo].[info] SELECT [Name]
 
 5、以Name字段为条件建立聚集索引。（以Name查询时，速度OK）
 建立聚集索引：在info表下面index条目上右键执行创建以Name为索引的聚集索引，注意不要勾选唯一性。
+在Storage选项当中的filegroup选择PRIMARY.
 另外，导出生成索引的脚本OpenRoom / sqlscripts / CREATE_CLUSTERED_INDEX.sql为后续RDS创建索引使用。
 最后再次备份个索引版本，然和上传S3，后续实验也可以使用这个版本进行。
 
