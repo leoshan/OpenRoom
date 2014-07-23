@@ -1,0 +1,9 @@
+USE [shenfenzheng]
+GO
+
+/****** Object:  Index [ClusteredIndex-20140722-015922]    Script Date: 7/23/2014 3:01:05 PM ******/
+CREATE CLUSTERED INDEX [ClusteredIndex-20140722-015922] ON [dbo].[info]
+(
+	[Name] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)
+GO
