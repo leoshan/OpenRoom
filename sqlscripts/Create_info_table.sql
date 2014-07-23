@@ -21,7 +21,7 @@ CREATE TABLE [dbo].[info](
 	[EMail] [nvarchar](60) NULL,
 	[Family] [nvarchar](50) NULL,
 	[Version] [nvarchar](50) NULL,
-	[id] [int] NULL
+	[id] [int] NOT NULL
 ) ON [PRIMARY]
 
 GO
