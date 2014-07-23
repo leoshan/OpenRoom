@@ -5,7 +5,6 @@
 1）验证原始数据库备份文件OK后，按照导入方法导入OK。（此方法曾经在Win7+SQL server 2012 Express X86 中文版本验证成功）
 2）验证从新生成的数据库备份导入生成数据库OK，可以重新生成shengfenzheng数据库。
 
-
 2、已验证失败：镜像win2008 server R2 with SQL server 2008 R2，验证数据库备份完整性，安装导入方法导入。（失败）
 ### 原因：由于前期数据库的操作使用的环境是Win2012Server + SQLserver2012Express，所以备份的数据库无法导入到SQL server 2008 R2
 的数据库环境，也就是说从高版本往低版本还原是有问题的，网上虽然有一些解决方案，都是取巧方案，没有继续试验。
@@ -17,8 +16,8 @@
 ### 已解决问题：注意新生成带有SQLserver的EC2实例，在首次连接数据库时，连接的服务器显示的不是真正的主机名，需要查询真正的主机名
 进行数据库连接操作，初步怀疑镜像没有封装好导致的报错。
 
-
 二、还原备份数据库：在EC2当中进行备份数据库还原。
+
 参照数据库备份还原方法
 
 1).下载安装SQL Server 2012 Express，微软官网下载。选择SQLEXPRWT_x86_CHS（32位系统）或者SQLEXPRWT_x64_CHS（64位系统），
@@ -45,35 +44,35 @@
 再校验解压后的文件MD5.与已恢复成功的数据对比之后发现是先前的解压出了问题。
 
 遗留问题：
-###还原数据库成功，解决查询结果中文是乱码问题。
-
+### 还原数据库成功，解决查询结果中文是乱码问题——更改字符集为chinese-rpc-ai-cs。
 
 三、优化数据库（使用名字查询时速度加快），参见表优化方法
 ### 根据前期对此数据的优化经验，少走弯路，优化步骤如下，至于为什么要这么优化，参见《SQL数据库使用》。
 
-1、创建一个新的数据库实例，eg.shenfenzheng。（单个Express数据库实例有10GB空间限制）
+1、创建一个新的数据库实例，eg.shenfenzheng。（单个Express数据库实例有10GB空间限制，所以不在原数据库实例当中建新表）
 
 参照原数据库实例，新建一个新的数据库实例。注意列属性的字符集。
 
 2、重现设计一张info表，对数据的长度进行限制。（字段变小方便做聚集索引）
-可以使用创建表的脚本语言操作。
+可以使用创建表的脚本 OpenRoom / sqlscripts / Create_info_table.sql 操作。
 新表列名只要如下13个字段，数据类型全部选择nvarchar[50],
 除id是int、Address选择nvarchar[100]、Email选择nvarchar[60](最长有个55).
 
-  SELECT TOP 1000 [Name]
-      ,[CtfId]
-      ,[Gender]
-      ,[Birthday]
-      ,[Address]
-      ,[District3]
-      ,[District4]
-      ,[Mobile]
-      ,[Tel]
-      ,[EMail]
-      ,[Family]
-      ,[Version]
-      ,[id]
-  FROM [shenfenzheng].[dbo].[info]
+CREATE TABLE [dbo].[info](
+	[Name] [nvarchar](50) NULL,
+	[CtfId] [nvarchar](50) NULL,
+	[Gender] [nvarchar](50) NULL,
+	[Birthday] [nvarchar](50) NULL,
+	[Address] [nvarchar](100) NULL,
+	[District3] [nvarchar](50) NULL,
+	[District4] [nvarchar](50) NULL,
+	[Mobile] [nvarchar](50) NULL,
+	[Tel] [nvarchar](50) NULL,
+	[EMail] [nvarchar](60) NULL,
+	[Family] [nvarchar](50) NULL,
+	[Version] [nvarchar](50) NULL,
+	[id] [int] NOT NULL
+) ON [PRIMARY]
 
 3、从原shifenzheng数据库中分段执行查询相应表达字段与然后插入到新的实例的info表中。
 （考虑执行速度，分段每次500w数据插入数据到新的表）
@@ -104,6 +103,7 @@ insert into [shenfenzheng].[dbo].[info] SELECT [Name]
   */
 
 4、新的数据库数据建设成功，先做备份，上传到S3上面一份原始数据。
+备份操作：在shengfenzheng实例名右键，选择task，选择backup。
 备份时不能选择压缩备份，64位操作系统报错。使用WinRAR高度压缩后上传。
 要对备份数据和压缩数据进行MD5计算，同时要对备份数据进行还原测试直接申请一台EC2进行测试，顺便把上面未完成的试验做了。
 从此之后，RDS的数据操作全部基于这个数据库的数据进行。
