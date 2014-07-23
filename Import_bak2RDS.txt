@@ -1,0 +1,45 @@
+将新生成数据库的备份文件shengfenzheng.bak导入到RDS方法
+
+一、创建一台原始数据库服务器，为后续导入RDS做准备。
+
+1、新建一台镜像为win2012 server R2 with SQL server 2014 R2的EC2实例
+
+2、新建并attach到这个实例上一个30GB数据卷，为了存储下载的数据库备份文件及还原后的数据库
+
+3、从S3下载并解压缩的shenfenzheng.bak，参照导入数据库方法，导入数据库。至此，有了1台原始数据库服务器，为后续导入RDS做好准备。
+
+二、从原始数据库服务器将表数据导入到RDS.
+
+1、参照RDS使用指导，创建RDS实例。
+创建MSSQL数据库实例，为了兼容性，选择2012版本。
+
+2、参照使用指导，连接实例。
+
+
+3、参照使用指导，导入数据到RDS×（2种方法）.
+###只能导入具体的info数据表中的数据，索引信息无法导入。
+1）使用
+
+
+2）使用BCP.exe批量复制
+
+
+三、优化数据库
+
+1、以Name字段为条件建立聚集索引。（以Name查询时，速度OK）
+建立聚集索引：在info表下面index条目上右键执行创建以Name为索引的聚集索引，注意不要勾选唯一性。在Storage选项当中的filegroup选择PRIMARY.
+另外，可使用生成索引的脚本OpenRoom / sqlscripts / CREATE_CLUSTERED_INDEX.sql创建索引。
+
+
+
+### 要将 SQL Server 数据导入数据库实例,请按照 将数据导入 Amazon RDS 上的 SQL Server 部分 提供的信息操作。
+您不能使用备份和还原命令将数据导入数据库实例,因为 Amazon RDS 不允许您具备可将文件放在数据库引擎
+可以访问的物理位置的操作系统级访问权限。
+此外,您也不能使用 SQL Server Management Studio 中的复制数据库向导导入数据,
+因为该工具需要源服务器和目标服务器的 sysadmin 权限,而此权限不可用于数据库实例的主用户账户。
+
+
+六、优化RDS
+
+七、MSSQL数据导入到MySQL RDS
+http://www.cnblogs.com/xjb/archive/2013/02/01/sqlservertomysql.html
