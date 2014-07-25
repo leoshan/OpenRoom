@@ -30,6 +30,9 @@ http://www.blogjava.net/zzzlyr/articles/340516.html
 
 1、使用Java+JDBC连接MSSQL数据库
 
+http://www.cnblogs.com/freeabyss/archive/2013/04/15/3187065.html
+
+http://www.cnblogs.com/xwdreamer/archive/2012/06/23/2559344.html
 
 2、使用Hibanate连接MSSQL数据库
 
