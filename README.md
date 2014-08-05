@@ -17,3 +17,12 @@ A Demo Project of ID search by public database, which use AWS EC2 RDS S3 also wi
     4、开发webservice连接数据库
     5、开发Android App连接webservice，发布程序。
 
+
+
+Spring+JDBC 
+
+http://www.tutorialspoint.com/spring/spring_jdbc_example.htm
+
+http://docs.spring.io/spring/docs/4.0.6.RELEASE/spring-framework-reference/html/jdbc.html
+
+http://simplespringtutorial.com/springjdbc.html
