@@ -26,3 +26,11 @@ http://www.tutorialspoint.com/spring/spring_jdbc_example.htm
 http://docs.spring.io/spring/docs/4.0.6.RELEASE/spring-framework-reference/html/jdbc.html
 
 http://simplespringtutorial.com/springjdbc.html
+
+
+Android + CXF Webservice
+
+http://blog.csdn.net/guoquanyou/article/details/9290609
+
+http://www.cnblogs.com/shenliang123/archive/2012/07/05/2578586.html
+
