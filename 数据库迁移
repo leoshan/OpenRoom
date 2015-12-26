@@ -1,11 +1,16 @@
-migration-best-practices-rdbms-to-dynamodb.pdf
+参考文献：
+
+1、migration-best-practices-rdbms-to-dynamodb.pdf
 http://d0.awsstatic.com/whitepapers/migration-best-practices-rdbms-to-dynamodb.pdf
 
-mysql_wp_workbench_migration_sqlserver.pdf
+2、mysql_wp_workbench_migration_sqlserver.pdf
 https://www.mysql.com/content/download/id/417/
 
-mysql_wp_ent_oem_SQL_Server_to_MySQL_feb2014_cn.pdf
+3、mysql_wp_ent_oem_SQL_Server_to_MySQL_feb2014_cn.pdf
 https://www.mysql.com/content/download/id/440/
 
-导入和导出 SQL Server 数据
+4、导入和导出 SQL Server 数据
 http://docs.aws.amazon.com/zh_cn/AmazonRDS/latest/UserGuide/SQLServer.Procedural.Importing.html
+
+5、如何修改sql sa 密码
+http://jingyan.baidu.com/article/3aed632e7a7d8b70108091c7.html
