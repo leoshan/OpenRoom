@@ -1,0 +1,76 @@
+数据库从EC2的Win2012R2+MSSqlServer2014迁移到RDS SqlServer2012
+-------------------------------------------------------------------------------------------------------------------------
+参考材料：导入和导出 SQL Server 数据
+http://docs.aws.amazon.com/zh_cn/AmazonRDS/latest/UserGuide/SQLServer.Procedural.Importing.html
+
+建议用来将数据导入到 SQL Server 数据库实例的过程如下： 
+1.创建数据库实例。 （按照RDS创建向导后，再创建shenfenzheng数据库）
+2.在将数据加载到目标数据库实例前，您应做一些准备工作，如禁用外键约束和数据库触发器。您还应禁用自动备份。（没有什么大用） 
+3.查询源 SQL Server 实例，获取您要导入到目标数据库实例的所有登录名。 （也没有什么用，数据库名字重复）
+4.在现有的 SQL Server 部署中，生成可从源 SQL Server 实例中获取数据的脚本，然后将脚本应用到目标数据库实例。（这步要做，生成数据库表）
+如果存在现有脚本，可以将那些脚本应用到目标数据库实例。如果您要导入大型数据集，脚本只能定义数据库架构；
+否则，脚本还可能会包括数据和其他所有的数据库数据元。 
+5.导入数据后，取消以前所做的任何准备，重新启用外键约束和数据库触发器，将恢复模式切换为其原有状态，然后重新启用自动备份。 （第二步做了就要做，否则不做）
+Note
+适用于 SQL Server 的 Amazon RDS 当前不支持将数据导入到 msdb 数据库中，不过，我们可为 SQL Server 代理任务提供支持。
+某些使用 msdb 数据库的 SQL Server 功能（例如，数据库邮件和复制）当前在 Amazon RDS 中不受支持。
+
+========================================================================================================================
+实践过程总结
+一、源数据库准备：
+1）创建EC2虚拟机，使用t2.micro类型创建Win2012R2+MSSQL2014服务器
+2）创建20GB数据卷，挂载数据卷到上面的虚拟机
+3）从S3下载之前精简（将最早的数据库有用的列保存下来）好的数据库备份压缩文件，并解压到C盘。
+4）使用 SQL Server Management Studio 以本地账号连接本地数据库，导入上面的备份数据库文件，还原shenfenzheng数据库。
+5）使用SQL语句查询数据，确定数据OK。
+
+二、目标数据库准备：
+1）按照RDS向导创建数据库（SQL Server Express，不能创建多AZ，但要指定AZ，与上面的EC2虚拟机在同一个AZ）
+2）在上面的EC2的SQL Server Management Studio上连接创建好的数据库，使用局域网IP地址连接（修改安全组，否则连接失败），使用上面创建的账号。
+3）连接RDS后，创建shenfenzheng数据库（与源数据库名字相同），注意字符集要选择和源数据库一致：China_RPC_CI_AS。
+
+三、迁移数据库：
+1、在现有的 SQL Server 部署中，生成可从源 SQL Server 实例中获取数据的脚本，然后将脚本应用到目标数据库实例。
+生成和发布脚本向导可创建一个包含数据库架构或数据本身，或兼具两者的脚本。
+如果您在本地 SQL Server 部署中为数据库生成了脚本，则可以运行此脚本，从而将脚本中包含的信息传输到 Amazon RDS 数据库实例。 
+Note：对于 1 GB 或更大的数据库，更有效的方法是，仅为数据库架构编写脚本，然后使用 SQL Server 的导入和导出向导或批量复制功能传输数据。
+参考文档操作：Generate and Publish Scripts Wizard————https://msdn.microsoft.com/en-us/library/ms178078(v=sql.105).aspx
+### 在“shenfenzheng数据库”右键，选择“任务（Task）”，选择“生成脚本（General Script……）”，按照向导操作。
+在此向导中，请特别注意“Set Scripting Options”页面中的高级选项，确保已选中脚本需要包含的所有选项。
+例如，默认情况下，脚本不包含数据库触发器。 
+2、生成并保存脚本后，您可以使用 SQL Server Management Studio 连接RDS数据库实例，然后运行脚本.
+生成shenfenzheng数据库[dbo].[Info]的表.
+3、使用EC2实例上面的SQL Server 2014 Import and Export Data（64bit）工具迁移数据库
+选择源数据库客户端时，选择SQL Server Native Client 11.0。指定shenfenzheng数据库。选择表Info进行数据库复制。
+4、验证数据库迁移成功：SQL语句查询TOP1000条数据。
+
+四、RDS数据库优化
+1、数据库导入成功后，数据库占用9GB的数据，没有数据库索引信息。故生成按照名字排序的数据库索引。
+在EC2虚拟机上使用SQL Server Management Studio上连接RDS数据库，调用Create CREATE_CLUSTERED_INDEX.sql脚本，执行创建索引。
+验证索引是否生效，OK.
+2、优化……
+
+
+参考材料：
+Generate and Publish Scripts Wizard————https://msdn.microsoft.com/en-us/library/ms178078(v=sql.105).aspx
+--------------------------------------------------------------------------------
+Use the Generate and Publish Scripts Wizard to create a Transact-SQL script for many objects. The wizard generates a script of all the objects in a database, or a subset of the objects that you select. The wizard has many options for your scripts, such as whether to include permissions, collation, constraints, and so on. For more information, see Generate and Publish Scripts Wizard F1 Help.
+To open the Generate and Publish Scripts Wizard
+1.In Object Explorer, expand Databases, right-click a database, point to Tasks, and then click Generate Scripts. Follow the steps in the wizard to script the database objects.
+2.On the Choose Objects page, select the objects to be included in the script. For more information, see Generate and Publish Scripts Wizard (Choose Objects Page).
+3.On the Set Scripting Options page, select Save scripts to a specific location.
+a.To specify advanced scripting options, select the Advanced button in the Save scripts to a specific location section.
+b.Select the location for the generated script: to a file, a Database Engine Query Editor window, or the Clipboard.
+For more information, see Generate and Publish Scripts Wizard (Set Scripting Options Page).
+4.On the Summary page, review your selections. Click Previous to change your selections. Click Next to generate a script of the objects you selected. For more information, see Generate and Publish Scripts Wizard (Summary Page).
+5.On the Save or Publish Scripts page, monitor the progress of the script generation. For more information, see Generate and Publish Scripts Wizard (Save or Publish Scripts Page)
+
+
+
+
+
+
+
+
+
+
