@@ -48,7 +48,9 @@ Note：对于 1 GB 或更大的数据库，更有效的方法是，仅为数据�
 1、数据库导入成功后，数据库占用9GB的数据，没有数据库索引信息。故生成按照名字排序的数据库索引。
 在EC2虚拟机上使用SQL Server Management Studio上连接RDS数据库，调用Create CREATE_CLUSTERED_INDEX.sql脚本，执行创建索引。
 验证索引是否生效，OK.
-2、优化……
+2、创建数据库快照
+
+3、优化 ……
 
 
 参考材料：
