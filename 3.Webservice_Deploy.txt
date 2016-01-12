@@ -38,6 +38,7 @@ http://www.cnblogs.com/xwdreamer/archive/2012/06/23/2559344.html
 
 3、......
 
+http://examples.javacodegeeks.com/enterprise-java/spring/jdbc/spring-jdbctemplate-example/
 
 三、选择上面其中的一种Webservice开发方法和一种进行正式功能开发
 
