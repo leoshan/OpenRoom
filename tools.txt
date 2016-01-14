@@ -1,3 +1,5 @@
 netbean
 
 https://jaxenter.com/netbeans/from-database-to-restful-web-service-to-html5-in-10-minutes
+
+URL http://download.netbeans.org/netbeans/8.1/final/bundles/netbeans-8.1-javaee-windows.exe
