@@ -1,0 +1,18 @@
+DevOps
+持续集成
+1、EB+Jenkins+Maven+Git
+http://www.cnblogs.com/binyue/p/4815459.html
+遇到问题：
+（1）、sqljdbc4的jar包无法用Maven自动集成。
+a. 考虑切换成MySql数据库，需要数据库数据迁移、数据库索引优化及数据库配置代码少量修改
+或者 b. 添加命令行脚本，解决Maven安装sqljdbc问题。
+
+持续部署
+2、Codepipeline+Jenkins+Maven+EB
+
+
+备注：数据库参数传入
+Spring+Sqlserver+Jdbc+RDS+EB Config
+http://openwebx.org/docs/autoconfig.html
+http://stackoverflow.com/questions/18744663/how-to-inject-environmental-variables-inside-spring-xml-configuration
+http://stackoverflow.com/questions/17304203/mule-3-loading-from-properties-file
