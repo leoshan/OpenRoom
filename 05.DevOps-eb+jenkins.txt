@@ -2,10 +2,19 @@ DevOps
 持续集成
 1、EB+Jenkins+Maven+Git
 http://www.cnblogs.com/binyue/p/4815459.html
+
+Jenkins
+
+
 遇到问题：
 （1）、sqljdbc4的jar包无法用Maven自动集成。
 a. 考虑切换成MySql数据库，需要数据库数据迁移、数据库索引优化及数据库配置代码少量修改
 或者 b. 添加命令行脚本，解决Maven安装sqljdbc问题。
+
+
+
+
+
 
 Before Mvn Build
 
