@@ -7,6 +7,12 @@ http://www.cnblogs.com/binyue/p/4815459.html
 a. 考虑切换成MySql数据库，需要数据库数据迁移、数据库索引优化及数据库配置代码少量修改
 或者 b. 添加命令行脚本，解决Maven安装sqljdbc问题。
 
+Before Mvn Build
+wget https://download.microsoft.com/download/0/2/A/02AAE597-3865-456C-AE7F-613F99F850A8/sqljdbc_4.0.2206.100_enu.tar.gz
+tar xvzf sqljdbc_4.0.2206.100_enu.tar.gz
+/usr/share/tomcat8/.jenkins/tools/hudson.tasks.Maven_MavenInstallation/Maven3/bin/mvn install:install-file -Dfile=./sqljdbc_4.0/enu/sqljdbc4.jar -DgroupId=com.microsoft.sqlserver -DartifactId=sqljdbc4 -Dversion=4.0 -Dpackaging=ja
+
+
 持续部署
 2、Codepipeline+Jenkins+Maven+EB
 
