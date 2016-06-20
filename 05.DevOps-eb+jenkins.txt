@@ -46,6 +46,9 @@ fi
 
 二、持续部署
 【1】、Codepipeline+Jenkins+Maven+EB
+http://docs.aws.amazon.com/zh_cn/codepipeline/latest/userguide/getting-started-4.html
+
+
 
 
 三、EB:数据库参数传入,Spring配置方式
