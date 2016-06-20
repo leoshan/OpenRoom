@@ -48,7 +48,7 @@ fi
 【1】、Codepipeline+Jenkins+Maven+EB
 http://docs.aws.amazon.com/zh_cn/codepipeline/latest/userguide/getting-started-4.html
 
-
+https://blogs.aws.amazon.com/application-management/post/Tx34AXRMYLXG5OT/Building-Continuous-Deployment-on-AWS-with-AWS-CodePipeline-Jenkins-and-AWS-Elas
 
 
 三、EB:数据库参数传入,Spring配置方式
