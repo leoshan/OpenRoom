@@ -50,6 +50,7 @@ http://docs.aws.amazon.com/zh_cn/codepipeline/latest/userguide/getting-started-4
 
 https://blogs.aws.amazon.com/application-management/post/Tx34AXRMYLXG5OT/Building-Continuous-Deployment-on-AWS-with-AWS-CodePipeline-Jenkins-and-AWS-Elas
 
+https://stackoverflow.com/questions/37144891/aws-codepipeline-elasticbeanstalk-deploy-failure
 
 三、EB:数据库参数传入,Spring配置方式
 Spring+Sqlserver+Jdbc+RDS+EB Config
