@@ -46,14 +46,23 @@ fi
 
 二、持续部署
 【1】、Codepipeline+Jenkins+Maven+EB
+1、通过EB创建Jenkins环境，安装Maven、安装codepipeline插件
+2、在EB的角色里面加入JenkinsAccess，附加AWSCodePipelineCustomActionAccess策略
+3、创建Jenkins上的工程：a、Maven工程；b、Provider名字和Codepipeline上匹配；c、POM SCM * * * * * d、输出：选择AWS CodePipeline Publisher，目标路径target/peoplewebservice （一定要这样设置，这样只会讲这个目录打zip包上传到S3，否则其他的目录的zip包无法在EB上正常运行）
+4、创建运行最终包的EB环境：DemoApp+Tomcat+AS+ELB+RDS配置信息。
+5、创建Codepipeline：Github+Jenkins（Provider名字和Jenkins匹配）+ 角色选择
+
 http://docs.aws.amazon.com/zh_cn/codepipeline/latest/userguide/getting-started-4.html
-
 https://blogs.aws.amazon.com/application-management/post/Tx34AXRMYLXG5OT/Building-Continuous-Deployment-on-AWS-with-AWS-CodePipeline-Jenkins-and-AWS-Elas
-
 https://stackoverflow.com/questions/37144891/aws-codepipeline-elasticbeanstalk-deploy-failure
 
 三、EB:数据库参数传入,Spring配置方式
 Spring+Sqlserver+Jdbc+RDS+EB Config
+EB参数配置：
+1、JDBC_CONNECTION_STRING = jdbc:sqlserver://shenfenzheng.c2l4wlylmaqm.ap-southeast-1.rds.amazonaws.com:1433;DatabaseName=shenfenzheng
+2、RDS_PASSWORD = password
+3、RDS_USERNAME = name
+
 http://openwebx.org/docs/autoconfig.html
 http://stackoverflow.com/questions/18744663/how-to-inject-environmental-variables-inside-spring-xml-configuration
 http://stackoverflow.com/questions/17304203/mule-3-loading-from-properties-file
