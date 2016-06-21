@@ -45,7 +45,7 @@ fi
 【1】、Codepipeline+Jenkins+Maven+EB
 1、通过EB创建Jenkins环境，安装Maven、安装codepipeline插件
 2、在EB的角色里面加入JenkinsAccess，附加AWSCodePipelineCustomActionAccess策略
-3、创建Jenkins上的工程：a、Maven工程，添加上面的sqljdbc安装脚本；b、Provider名字和Codepipeline上匹配；c、POM SCM * * * * * d、输出：选择AWS CodePipeline Publisher，目标路径target/peoplewebservice （一定要这样设置，这样只会讲这个目录打zip包上传到S3，否则其他的目录的zip包无法在EB上正常运行）
+3、创建Jenkins上的工程：a、Maven工程，添加上面的sqljdbc安装脚本；b、Provider名字和Codepipeline上匹配；c、POM SCM * * * * * d、输出：选择AWS CodePipeline Publisher，目标路径target/peoplewebservice （peoplewebservice对应POM.xml 文件中的finalname，一定要这样设置，这样只会讲这个目录打zip包上传到S3，否则其他的目录的zip包无法在EB上正常运行）
 4、创建运行最终包的EB环境：DemoApp+Tomcat+AS+ELB+RDS配置信息。
 5、创建Codepipeline：Github+Jenkins（Provider名字和Jenkins匹配）+ 角色选择
 
