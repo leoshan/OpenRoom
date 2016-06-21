@@ -20,16 +20,13 @@ http://blog.csdn.net/xlgen157387/article/details/50353317
    源码管理：Git：github地址。输入账号/密码
    Pre Step:输入下面的shell脚本
    Build: pom.xml
-
+   
 =============================================================================================
 遇到问题：
 （1）、sqljdbc4的jar包无法用Maven自动集成。
 a. 考虑切换成MySql数据库，需要数据库数据迁移、数据库索引优化及数据库配置代码少量修改
-
 或者 
-
 b. 添加命令行脚本，解决Maven安装sqljdbc问题。在Before Mvn Build，添加如下脚本安装Sqljdbc4的jar包
-
 #!/bin/bash
 folder="/usr/share/tomcat8/.jenkins/workspace/peoplewebservice/sqljdbc_4.0/"
 if [ ! -d "$folder" ];
@@ -48,7 +45,7 @@ fi
 【1】、Codepipeline+Jenkins+Maven+EB
 1、通过EB创建Jenkins环境，安装Maven、安装codepipeline插件
 2、在EB的角色里面加入JenkinsAccess，附加AWSCodePipelineCustomActionAccess策略
-3、创建Jenkins上的工程：a、Maven工程；b、Provider名字和Codepipeline上匹配；c、POM SCM * * * * * d、输出：选择AWS CodePipeline Publisher，目标路径target/peoplewebservice （一定要这样设置，这样只会讲这个目录打zip包上传到S3，否则其他的目录的zip包无法在EB上正常运行）
+3、创建Jenkins上的工程：a、Maven工程，添加上面的sqljdbc安装脚本；b、Provider名字和Codepipeline上匹配；c、POM SCM * * * * * d、输出：选择AWS CodePipeline Publisher，目标路径target/peoplewebservice （一定要这样设置，这样只会讲这个目录打zip包上传到S3，否则其他的目录的zip包无法在EB上正常运行）
 4、创建运行最终包的EB环境：DemoApp+Tomcat+AS+ELB+RDS配置信息。
 5、创建Codepipeline：Github+Jenkins（Provider名字和Jenkins匹配）+ 角色选择
 
