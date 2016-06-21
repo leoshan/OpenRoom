@@ -53,6 +53,11 @@ http://docs.aws.amazon.com/zh_cn/codepipeline/latest/userguide/getting-started-4
 https://blogs.aws.amazon.com/application-management/post/Tx34AXRMYLXG5OT/Building-Continuous-Deployment-on-AWS-with-AWS-CodePipeline-Jenkins-and-AWS-Elas
 https://stackoverflow.com/questions/37144891/aws-codepipeline-elasticbeanstalk-deploy-failure
 
+缺点：
+1、codepipeline当前只在美国区域，而当前配合EB部署，只能部署在美国，不能部署在其他区域，数据库地域受限制。
+2、当前数据库通过外网访问的，没有使用VPC，需要解决这个问题。
+3、需要进一步熟悉各个服务的细节，熟悉EB的运维能力。
+
 三、EB:数据库参数传入,Spring配置方式
 Spring+Sqlserver+Jdbc+RDS+EB Config
 EB参数配置：
