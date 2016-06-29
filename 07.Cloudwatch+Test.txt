@@ -1,0 +1,29 @@
+
+Configuration Add
+
+## jdk.tls.client.protocols=TLSv1 ##
+
+1. EB Cloudwatch Use and make sense
+
+2. SoapUI test
+
+3. Problem solve 
+==============================================================================================================
+1).Environment health has transitioned from Ok to Warning. 1.2 % of the requests are failing with HTTP 5xx.
+5% 的请求失败，错误消息为 HTTP 5xx
+3% 的 ELB 请求失败，错误消息为 HTTP 5xx。
+对实例或环境的 HTTP 请求中有很大一部分失败，错误消息为 500 系列状态代码。
+500 系列状态代码表示应用程序服务器遇到了内部错误。这些问题表示应用程序代码中存在错误，应该快速加以确定和修复。
+https://docs.aws.amazon.com/zh_cn/elasticbeanstalk/latest/dg/environments-health-enhanced-notifications.html
+-------------------------
+Log in EB instance, read logs: tail -f /var/log/tomcat8/catalina.out
+
+Could not get JDBC Connection; nested exception is com.microsoft.sqlserver.jdbc.
+SQLServerException: The driver could not establish a secure connection to SQL Server by using Secure Sockets Layer (SSL) 
+encryption. Error: "SQL Server returned an incomplete response.
+Explain:
+Notice that TLSv1.2 is selected by the database server and used in this exchange. I've observed that, when connections fail from the problematic linux service, TLSv1.2 is ALWAYS the level which was selected. However, connections do not ALWAYS fail when TLSv1.2 is used. They only fail 5-10% of the time.
+Now here is an exchange from a server that does NOT have the problem. Everything else is equal. I.e., connecting to the same database, same version of the JVM (Java 1.8.0_60), same JDBC driver, etc. Notice that, here, TLSv1 is selected by the database server instead of TLSv1.2 as in the faulty server's case.
+http://stackoverflow.com/questions/32766114/sql-server-jdbc-error-on-java-8-the-driver-could-not-establish-a-secure-connect
+------------------------------
+Solve: ## jdk.tls.client.protocols=TLSv1 ##
